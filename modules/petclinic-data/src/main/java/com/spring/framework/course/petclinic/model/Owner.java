@@ -1,7 +1,9 @@
 package com.spring.framework.course.petclinic.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -50,5 +52,14 @@ public class Owner extends Person {
 
     public void setPets(Set<Pet> pets) {
         this.pets = pets;
+    }
+
+    public void addPets(Pet... pets) {
+        Arrays.stream(pets)
+                .filter(Objects::nonNull)
+                .forEach(pet -> {
+                    pet.setOwner(this);
+                    this.pets.add(pet);
+                });
     }
 }

@@ -1,10 +1,7 @@
 package com.spring.framework.course.petclinic.bootstrap;
 
 import com.spring.framework.course.petclinic.model.*;
-import com.spring.framework.course.petclinic.services.OwnerService;
-import com.spring.framework.course.petclinic.services.PetTypeService;
-import com.spring.framework.course.petclinic.services.SpecialtyService;
-import com.spring.framework.course.petclinic.services.VetService;
+import com.spring.framework.course.petclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +14,14 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
 
 
@@ -55,7 +54,7 @@ public class DataLoader implements CommandLineRunner {
         mikesPet.setPetType(savedDog);
         mikesPet.setBirthDate(LocalDate.now());
         mikesPet.setName("Goo Goo Gaa Gaa");
-        owner1.getPets().add(mikesPet);
+        owner1.addPets(mikesPet);
 
         ownerService.save(owner1);
 
@@ -71,7 +70,7 @@ public class DataLoader implements CommandLineRunner {
         dwightsPet.setPetType(savedCat);
         dwightsPet.setBirthDate(LocalDate.now());
         dwightsPet.setName("Mose Schrute");
-        owner2.getPets().add(dwightsPet);
+        owner2.addPets(dwightsPet);
 
         ownerService.save(owner2);
 
@@ -99,6 +98,19 @@ public class DataLoader implements CommandLineRunner {
         vet2.getSpecialities().add(savedSurgery);
 
         vetService.save(vet2);
+
+        Visit visitForMike = new Visit();
+        visitForMike.setPet(mikesPet);
+        visitForMike.setDate(LocalDate.of(2020, 2, 24));
+        visitForMike.setDescription("Burnt Foot");
+
+
+        Visit visitForDwight = new Visit();
+        visitForDwight.setPet(dwightsPet);
+        visitForDwight.setDate(LocalDate.now());
+        visitForDwight.setDescription("Concussion");
+
+        visitService.save(visitForMike);
 
         System.out.println("Vets loaded");
     }
