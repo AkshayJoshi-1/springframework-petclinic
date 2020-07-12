@@ -110,7 +110,7 @@ public class DataLoader implements CommandLineRunner {
         visitForDwight.setDate(LocalDate.now());
         visitForDwight.setDescription("Concussion");
 
-        visitService.save(visitForMike);
+        visitService.save(visitForDwight);
 
         System.out.println("Vets loaded");
     }
