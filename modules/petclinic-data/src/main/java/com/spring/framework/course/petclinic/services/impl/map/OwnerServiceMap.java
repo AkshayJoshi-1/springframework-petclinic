@@ -39,24 +39,26 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
     public Owner save(Owner object) {
         if(object != null) {
             if(object.getPets() != null){
-                object.getPets().forEach(pet -> {
-                    if(pet.getPetType() != null) {
-                        if(pet.getPetType().getId() == null) {
-                            pet.setPetType(petTypeService.save(pet.getPetType()));
-                        }
-                    } else {
-                        throw new RuntimeException("Pet Type is required");
-                    }
-
-                    if(pet.getId() == null) {
-                        Pet savedPet = petService.save(pet);
-                        pet.setId(savedPet.getId());
-                    }
-                });
+                object.getPets().forEach(this::saveData);
             }
             return super.save(object);
         }
         return null;
+    }
+
+    private void saveData(Pet pet) {
+        if(pet.getPetType() != null) {
+            if(pet.getPetType().getId() == null) {
+                pet.setPetType(petTypeService.save(pet.getPetType()));
+            }
+        } else {
+            throw new RuntimeException("Pet Type is required");
+        }
+
+        if(pet.getId() == null) {
+            Pet savedPet = petService.save(pet);
+            pet.setId(savedPet.getId());
+        }
     }
 
     @Override
