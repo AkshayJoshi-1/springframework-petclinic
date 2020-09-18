@@ -5,6 +5,7 @@ import com.spring.framework.course.petclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Component
@@ -15,13 +16,15 @@ public class DataLoader implements CommandLineRunner {
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
     private final VisitService visitService;
+    private final PetService petService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService, PetService petService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
         this.visitService = visitService;
+        this.petService = petService;
     }
 
 
@@ -34,6 +37,7 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
+    @Transactional
     private void loadData() {
         PetType dog = new PetType();
         dog.setName("dog");
@@ -73,6 +77,7 @@ public class DataLoader implements CommandLineRunner {
         owner2.addPets(dwightsPet);
 
         ownerService.save(owner2);
+        petService.save(dwightsPet);
 
         System.out.println("Owners Loaded");
 
