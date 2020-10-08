@@ -11,9 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -102,7 +100,7 @@ class OwnerServiceJPATest {
 
         doNothing().when(ownerRepository).delete(any());
 
-        ownerRepository.delete(returnOwner);
+        service.delete(returnOwner);
 
         verify(ownerRepository, times(1)).delete(isA(Owner.class));
     }
@@ -112,8 +110,30 @@ class OwnerServiceJPATest {
 
         doNothing().when(ownerRepository).deleteById(any());
 
-        ownerRepository.deleteById(ID);
+        service.deleteByID(ID);
 
         verify(ownerRepository, times(1)).deleteById(ID);
+    }
+
+    @Test
+    void findAllByLastNameLike() {
+
+        Owner owner = Owner.builder().build();
+        owner.setLastName("Test");
+
+        List<Owner> ownerList = new ArrayList<>();
+        ownerList.add(owner);
+
+        owner = Owner.builder().build();
+        owner.setLastName("Tes");
+
+        ownerList.add(owner);
+
+        when(ownerRepository.findAllByLastNameLike(any())).thenReturn(ownerList);
+
+        List<Owner> returnedList = service.findAllByLastNameLike("Tes");
+
+        assertEquals(2, returnedList.size());
+        verify(ownerRepository, times(1)).findAllByLastNameLike(matches("\\%Tes\\%"));
     }
 }

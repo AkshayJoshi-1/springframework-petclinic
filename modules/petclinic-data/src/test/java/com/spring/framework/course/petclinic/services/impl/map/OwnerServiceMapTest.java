@@ -4,6 +4,7 @@ import com.spring.framework.course.petclinic.model.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,5 +85,25 @@ class OwnerServiceMapTest {
     void findById() {
         Owner owner = ownerServiceMap.findById(ownerId);
         assertEquals(ownerId, owner.getId());
+    }
+
+    @Test
+    void findAllByLastNameLike() {
+
+        Owner owner = Owner.builder().build();
+        owner.setLastName("Test");
+
+        ownerServiceMap.save(owner);
+
+        owner = Owner.builder().build();
+        owner.setLastName("Tes");
+
+        ownerServiceMap.save(owner);
+
+        List<Owner> returnedListWithLastName = ownerServiceMap.findAllByLastNameLike("Tes");
+        List<Owner> returnedListWithoutLastName = ownerServiceMap.findAllByLastNameLike("");
+
+        assertEquals(2, returnedListWithLastName.size());
+        assertEquals(3, returnedListWithoutLastName.size());
     }
 }
