@@ -51,12 +51,13 @@ class OwnerServiceJPATest {
 
     @Test
     void findByLastName() {
+
         when(ownerRepository.findByLastName(any())).thenReturn(returnOwner);
 
         Owner owner = service.findByLastName(LAST_NAME);
 
         assertEquals(LAST_NAME, owner.getLastName());
-        verify(ownerRepository).findByLastName(any());
+        verify(ownerRepository).findByLastName(matches(LAST_NAME));
     }
 
     @Test
@@ -78,10 +79,10 @@ class OwnerServiceJPATest {
         when(ownerRepository.findById(ID)).thenReturn(Optional.of(returnOwner));
 
         Owner owner = service.findById(ID);
+
         assertNotNull(owner);
         assertEquals(ID, owner.getId());
         verify(ownerRepository, times(1)).findById(ID);
-
     }
 
     @Test
@@ -93,14 +94,26 @@ class OwnerServiceJPATest {
 
         assertNotNull(savedOwner);
         assertEquals(ID, savedOwner.getId());
-        verify(ownerRepository, times(1)).save(any());
+        verify(ownerRepository, times(1)).save(isA(Owner.class));
     }
 
     @Test
     void delete() {
+
+        doNothing().when(ownerRepository).delete(any());
+
+        ownerRepository.delete(returnOwner);
+
+        verify(ownerRepository, times(1)).delete(isA(Owner.class));
     }
 
     @Test
     void deleteByID() {
+
+        doNothing().when(ownerRepository).deleteById(any());
+
+        ownerRepository.deleteById(ID);
+
+        verify(ownerRepository, times(1)).deleteById(ID);
     }
 }
