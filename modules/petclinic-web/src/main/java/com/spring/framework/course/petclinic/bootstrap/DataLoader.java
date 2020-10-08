@@ -40,11 +40,11 @@ public class DataLoader implements CommandLineRunner {
     @Transactional
     private void loadData() {
         PetType dog = new PetType();
-        dog.setName("dog");
+        dog.setName("Dog");
         PetType savedDog = petTypeService.save(dog);
 
         PetType cat = new PetType();
-        cat.setName("cat");
+        cat.setName("Cat");
         PetType savedCat = petTypeService.save(cat);
 
         Owner owner1 = new Owner();
