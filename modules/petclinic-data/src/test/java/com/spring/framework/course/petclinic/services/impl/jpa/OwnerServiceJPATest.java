@@ -129,11 +129,11 @@ class OwnerServiceJPATest {
 
         ownerList.add(owner);
 
-        when(ownerRepository.findAllByLastNameLike(any())).thenReturn(ownerList);
+        when(ownerRepository.findAllByLastNameLikeIgnoreCase(any())).thenReturn(ownerList);
 
         List<Owner> returnedList = service.findAllByLastNameLike("Tes");
 
         assertEquals(2, returnedList.size());
-        verify(ownerRepository, times(1)).findAllByLastNameLike(matches("\\%Tes\\%"));
+        verify(ownerRepository, times(1)).findAllByLastNameLikeIgnoreCase(matches("\\%Tes\\%"));
     }
 }

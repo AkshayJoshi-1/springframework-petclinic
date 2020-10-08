@@ -36,7 +36,7 @@ public class OwnerServiceJPA implements OwnerService {
     public List<Owner> findAllByLastNameLike(String lastName) {
 
         // '%' is used as wild card entry
-        return ownerRepository.findAllByLastNameLike("%" + lastName + "%");
+        return ownerRepository.findAllByLastNameLikeIgnoreCase("%" + lastName + "%");
     }
 
     @Override
