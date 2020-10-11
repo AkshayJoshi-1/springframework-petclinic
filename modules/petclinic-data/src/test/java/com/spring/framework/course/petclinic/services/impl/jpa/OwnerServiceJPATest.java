@@ -42,9 +42,7 @@ class OwnerServiceJPATest {
     @BeforeEach
     void setUp() {
 
-        returnOwner = Owner.builder().build();
-        returnOwner.setId(ID);
-        returnOwner.setLastName(LAST_NAME);
+        returnOwner = Owner.builder().id(ID).lastName(LAST_NAME).build();
     }
 
     @Test
@@ -118,16 +116,10 @@ class OwnerServiceJPATest {
     @Test
     void findAllByLastNameLike() {
 
-        Owner owner = Owner.builder().build();
-        owner.setLastName("Test");
 
         List<Owner> ownerList = new ArrayList<>();
-        ownerList.add(owner);
-
-        owner = Owner.builder().build();
-        owner.setLastName("Tes");
-
-        ownerList.add(owner);
+        ownerList.add(Owner.builder().lastName("Test").build());
+        ownerList.add(Owner.builder().lastName("Tes").build());
 
         when(ownerRepository.findAllByLastNameLikeIgnoreCase(any())).thenReturn(ownerList);
 

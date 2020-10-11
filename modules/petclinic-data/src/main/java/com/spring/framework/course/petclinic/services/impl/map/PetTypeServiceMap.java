@@ -35,4 +35,11 @@ public class PetTypeServiceMap extends AbstractMapService<PetType, Long> impleme
     public PetType findById(Long id) {
         return super.findById(id);
     }
+
+    @Override
+    public PetType findTypeByName(String petTypeName) {
+        return findAll().stream()
+                .filter(petType -> petType.getName().equalsIgnoreCase(petTypeName))
+                .findFirst().orElse(null);
+    }
 }

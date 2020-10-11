@@ -46,4 +46,9 @@ public class PetTypeServiceJPA implements PetTypeService {
     public void deleteByID(Long aLong) {
         petTypeRepository.deleteById(aLong);
     }
+
+    @Override
+    public PetType findTypeByName(String petTypeName) {
+        return petTypeRepository.findByNameIgnoreCase(petTypeName).orElse(null);
+    }
 }

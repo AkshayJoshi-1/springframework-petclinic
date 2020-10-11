@@ -1,6 +1,9 @@
 package com.spring.framework.course.petclinic.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +13,6 @@ import javax.persistence.Table;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Table(name = "types")
 public class PetType extends BaseEntity{
 
@@ -21,5 +22,11 @@ public class PetType extends BaseEntity{
     @Override
     public String toString(){
         return name;
+    }
+
+    @Builder
+    public PetType(Long id, String name) {
+        super(id);
+        this.name = name;
     }
 }

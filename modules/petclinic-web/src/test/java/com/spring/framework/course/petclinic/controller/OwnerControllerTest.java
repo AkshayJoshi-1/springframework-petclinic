@@ -40,17 +40,12 @@ class OwnerControllerTest {
     public void setUp(){
         owners = new HashSet<>();
 
-        Owner owner = Owner.builder().build();
-        owner.setId(1L);
+        Owner owner = Owner.builder().id(1L).build();
 
-        returnOwnerWithId1 = owner;
+        returnOwnerWithId1 = Owner.builder().id(1L).build();;
 
-        owners.add(owner);
-
-        owner = Owner.builder().build();
-        owner.setId(2L);
-
-        owners.add(owner);
+        owners.add(Owner.builder().id(1L).build());
+        owners.add(Owner.builder().id(2L).build());
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
@@ -86,8 +81,7 @@ class OwnerControllerTest {
 
     @Test
     void findOwnerByLastNameOneMatch() throws Exception {
-        Owner owner = Owner.builder().build();
-        owner.setId(1L);
+        Owner owner = Owner.builder().id(1L).build();
         when(ownerService.findAllByLastNameLike(anyString())).thenReturn(Collections.singletonList(owner));
 
         mockMvc.perform(get("/owners"))
@@ -119,8 +113,7 @@ class OwnerControllerTest {
     @Test
     void saveNewOwnerTest() throws Exception {
 
-        Owner savedOwner = Owner.builder().build();
-        savedOwner.setId(1L);
+        Owner savedOwner = Owner.builder().id(1L).build();
 
         when(ownerService.save(any())).thenReturn(savedOwner);
 
@@ -133,8 +126,7 @@ class OwnerControllerTest {
 
     @Test
     void getOwnerEditFormTest() throws Exception {
-        Owner owner = Owner.builder().build();
-        owner.setId(1L);
+        Owner owner = Owner.builder().id(1L).build();
 
         when(ownerService.findById(anyLong())).thenReturn(owner);
 
@@ -148,8 +140,7 @@ class OwnerControllerTest {
 
     @Test
     void saveEditedOwnerTest() throws Exception {
-        Owner savedOwner = Owner.builder().build();
-        savedOwner.setId(1L);
+        Owner savedOwner = Owner.builder().id(1L).build();
 
         when(ownerService.save(any())).thenReturn(savedOwner);
 

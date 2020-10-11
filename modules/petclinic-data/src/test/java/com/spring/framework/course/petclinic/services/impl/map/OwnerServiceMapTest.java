@@ -21,9 +21,7 @@ class OwnerServiceMapTest {
     void setUp() {
         ownerServiceMap = new OwnerServiceMap(new PetTypeServiceMap(), new PetServiceMap());
 
-        Owner owner = Owner.builder().address("11").build();
-        owner.setId(ownerId);
-        owner.setLastName(lastName);
+        Owner owner = Owner.builder().id(1L).lastName(lastName).address("11").build();
         ownerServiceMap.save(owner);
     }
 
@@ -65,8 +63,7 @@ class OwnerServiceMapTest {
     @Test
     void saveExistingID() {
 
-        Owner owner2 = Owner.builder().build();
-        owner2.setId(2L);
+        Owner owner2 = Owner.builder().id(2L).build();
 
         Owner savedOwner = ownerServiceMap.save(owner2);
 
@@ -90,13 +87,11 @@ class OwnerServiceMapTest {
     @Test
     void findAllByLastNameLike() {
 
-        Owner owner = Owner.builder().build();
-        owner.setLastName("Test");
+        Owner owner = Owner.builder().lastName("Test").build();
 
         ownerServiceMap.save(owner);
 
-        owner = Owner.builder().build();
-        owner.setLastName("Tes");
+        owner = Owner.builder().lastName("Tes").build();
 
         ownerServiceMap.save(owner);
 
